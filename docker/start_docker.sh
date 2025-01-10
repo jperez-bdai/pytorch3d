@@ -46,4 +46,4 @@ docker run -it --rm\
             --ipc=host\
             --group-add video\
             --workdir /inside\
-            --runtime nvidia pytorch3d-wheel-amd64
+            --runtime nvidia pytorch3d-wheel-arm64

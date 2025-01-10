@@ -10,4 +10,4 @@ conda_cache=/raid/$USER/building_conda_cache
 
 mkdir -p "$conda_cache"
 
-sudo docker run --rm -v "$conda_cache:/conda_cache" -v "$PWD/../../:/inside" -e SELECTED_CUDA=cu121 pytorch3d-wheel-amd64:latest bash /inside/packaging/linux_wheels/inside.sh
+sudo docker run --rm -v "$conda_cache:/conda_cache" -v "$PWD/../../:/inside" -e SELECTED_CUDA=cu121 pytorch3d-wheel-arm64:latest bash /inside/packaging/linux_wheels/inside.sh

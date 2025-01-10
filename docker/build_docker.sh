@@ -7,4 +7,4 @@ if [ -z "${GITHUB_TOKEN}" ]; then
   echo "GitHub token could not be obtained. Starting container without GitHub token."
 fi
 
-docker build --progress=plain -t pytorch3d-wheel-amd64 -f docker/Dockerfile --build-arg GITHUB_TOKEN=$GITHUB_TOKEN .
+docker build --progress=plain -t pytorch3d-wheel-arm64 -f docker/Dockerfile --build-arg GITHUB_TOKEN=$GITHUB_TOKEN .

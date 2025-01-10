@@ -14,6 +14,7 @@ source ~/.bashrc
 
 cd /inside
 VERSION=$(python -c "exec(open('pytorch3d/__init__.py').read()); print(__version__)")
+ARCH="arm64"
 
 export BUILD_VERSION=$VERSION
 export FORCE_CUDA=1
@@ -54,7 +55,7 @@ do
                     exit 1
                 ;;
             esac
-            tag=py"${python_version//./}"_"${cu_version}"_pyt"${pytorch_version//./}"
+            tag=py"${python_version//./}"_"${cu_version}"_pyt"${pytorch_version//./}"_"${ARCH}"
 
             outdir="/inside/packaging/linux_wheels/output/$tag"
             if [[ -d "$outdir" ]]
