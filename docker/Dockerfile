@@ -1,11 +1,11 @@
 # Build arguments
-ARG CUDA_VER=12.1.1
+ARG CUDA_VER=12.4.1
 ARG UBUNTU_VER=22.04
-ARG ARCH=linux/arm64
+ARG ARCH=linux/amd64
 
 # Available cuda images can be found at https://hub.docker.com/r/nvidia/cuda/tags
 # Download the base image
-FROM --platform=${ARCH} nvidia/cuda:${CUDA_VER}-cudnn8-devel-ubuntu${UBUNTU_VER}
+FROM --platform=${ARCH} nvidia/cuda:${CUDA_VER}-cudnn-devel-ubuntu${UBUNTU_VER}
 
 # Install as root
 USER root

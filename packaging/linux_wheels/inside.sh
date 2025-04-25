@@ -14,7 +14,7 @@ source ~/.bashrc
 
 cd /inside
 VERSION=$(python -c "exec(open('pytorch3d/__init__.py').read()); print(__version__)")
-ARCH="arm64"
+ARCH="amd64"
 
 export BUILD_VERSION=$VERSION
 export FORCE_CUDA=1
@@ -27,7 +27,7 @@ export CONDA_PKGS_DIRS=/conda_cache
 PYTHON_VERSIONS="3.10"
 # the keys are pytorch versions
 declare -A CONDA_CUDA_VERSIONS=(
-    ["2.3.1"]="cu121"
+    ["2.6.0"]="cu124"
 )
 
 for python_version in $PYTHON_VERSIONS
@@ -45,9 +45,9 @@ do
                 continue
             fi
             case "$cu_version" in
-                cu121)
-                    export CUDA_HOME=/usr/local/cuda-12.1/
-                    export CUDA_TAG=12.1
+                "cu124")
+                    export CUDA_HOME=/usr/local/cuda-12.4/
+                    export CUDA_TAG=12.4
                     export NVCC_FLAGS="-gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_60,code=sm_60 -gencode=arch=compute_70,code=sm_70 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_50,code=compute_50"
                 ;;
                 *)
@@ -66,9 +66,11 @@ do
             conda create -y -n "$tag" "python=$python_version"
             conda activate "$tag"
             # shellcheck disable=SC2086
-            conda install -y -c pytorch $extra_channel "pytorch=$pytorch_version" "$cudatools=$CUDA_TAG"
+
             pip install iopath
-            echo "python version" "$python_version" "pytorch version" "$pytorch_version" "cuda version" "$cu_version" "tag" "$tag"
+            #conda install -y -c pytorch $extra_channel "pytorch=$pytorch_version" "$cudatools=$CUDA_TAG"
+            #echo "python version" "$python_version" "pytorch version" "$pytorch_version" "cuda version" "$cu_version" "tag" "$tag"
+            pip3 install torch==2.6 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
             rm -rf dist
 
@@ -76,6 +78,8 @@ do
             # conda install -c bottler nvidiacub
             conda install -c conda-forge ninja
 
+            python -c 'import torch; print("compiled or not?", torch.cuda._is_compiled())'
+            python -c 'import torch; from torch.utils.cpp_extension import CUDA_HOME; print(torch.cuda.is_available(), CUDA_HOME)'
             python setup.py clean
             python setup.py bdist_wheel
 
